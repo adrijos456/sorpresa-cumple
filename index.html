@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>🎉 Sorpresa de Cumpleaños 🎉</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url("fondo_hello_kitty.jpg") no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      color: #333;
+      overflow-x: hidden;
+    }
+    #pantalla-inicio {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: pink;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      flex-direction: column;
+    }
+    .globo-grande {
+      width: 180px;
+      height: 230px;
+      background: radial-gradient(circle at 70% 20%, #fff0f6 60%, #ff82b2 100%);
+      border-radius: 50% 50% 45% 45% / 55% 55% 65% 65%;
+      box-shadow: 0 8px 28px #ff2e6377, 0 2px 7px #fff0f6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5em;
+      color: #ff2e63;
+      position: relative;
+      margin-bottom: 30px;
+      cursor: pointer;
+      animation: aparecer 0.7s;
+    }
+    .globo-numero {
+      font-size: 2em;
+      font-weight: bold;
+      margin-top: 25px;
+      margin-bottom: 10px;
+    }
+    .globo-texto {
+      font-size: 1.1em;
+      margin-bottom: 10px;
+    }
+    @keyframes aparecer {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .globo-grande.explotado {
+      animation: estallar 0.25s forwards;
+    }
+    @keyframes estallar {
+      to { transform: scale(0.2); opacity: 0; }
+    }
+    header {
+      background: #ff6f91;
+      color: #fff;
+      padding: 25px;
+      border-bottom: 5px solid #ff2e63;
+      position: relative;
+      z-index: 2;
+    }
+    header h1 {
+      font-size: 3em;
+      margin: 0;
+    }
+    .mensaje-corto {
+      margin: 15px auto;
+      font-size: 1.3em;
+    }
+    .imagenes {
+      margin: 40px auto 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 26px;
+      max-width: 1080px;
+      padding: 10px;
+      z-index: 2;
+      position: relative;
+    }
+    .tarjeta {
+      perspective: 1000px;
+      cursor: pointer;
+      min-width: 160px;
+      min-height: 160px;
+    }
+    .tarjeta-inner {
+      position: relative;
+      width: 100%;
+      padding-top: 100%;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
+    .tarjeta.volteada .tarjeta-inner {
+      transform: rotateY(180deg);
+    }
+    .tarjeta-front, .tarjeta-back {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      backface-visibility: hidden;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .tarjeta-front img {
+      width: 100%;
+      height: 100%;
+      border-radius: 15px;
+      object-fit: cover;
+    }
+    .tarjeta-back {
+      background: #ffe6f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1em;
+      font-weight: bold;
+      color: #ff2e63;
+      transform: rotateY(180deg);
+      padding: 15px;
+      text-align: center;
+    }
+    .carta {
+      background: linear-gradient(135deg, #ffb6d5 0%, #fff0f7 100%);
+      margin: 30px auto;
+      width: 85%;
+      max-width: 800px;
+      padding: 36px 30px 36px 30px;
+      border-radius: 30px;
+      box-shadow: 0 4px 22px rgba(255,50,100,0.18);
+      text-align: left;
+      font-size: 1.1em;
+      line-height: 1.7;
+      position: relative;
+      z-index: 2;
+      border: 3px dashed #ff2e63;
+    }
+    .carta h2 {
+      text-align: center;
+      color: #ff2e63;
+      font-size: 2em;
+      margin-bottom: 15px;
+    }
+    .carta p {
+      margin-bottom: 15px;
+    }
+    .carta .firma {
+      text-align: center;
+      font-weight: bold;
+      color: #ff2e63;
+    }
+    footer {
+      margin: 40px 0 30px;
+      font-size: 1.5em;
+      color: #ff2e63;
+      position: relative;
+      z-index: 2;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 8px #fff0f6;
+    }
+    .flotante {
+      position: fixed;
+      z-index: 1;
+      opacity: 0.88;
+      pointer-events: none;
+      animation: flotar 7s linear forwards;
+      top: 100%;
+      will-change: transform, opacity;
+    }
+    @keyframes flotar {
+      0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-110vh) scale(1.45) rotate(25deg); opacity: 0; }
+    }
+    .hello-kitty-img {
+      border-radius: 50%;
+      box-shadow: 0 2px 12px #ffb6d5;
+    }
+    /* --- Pantalla de contraseña --- */
+    #pantalla-password {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(255,182,213,0.93);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      flex-direction: column;
+      font-family: inherit;
+      transition: opacity 0.5s;
+    }
+    #pantalla-password input[type="password"] {
+      font-size: 1.4em;
+      padding: 12px;
+      border-radius: 8px;
+      border: 2px solid #ff2e63;
+      margin-top: 14px;
+      margin-bottom: 8px;
+      background: #fff0f7;
+      text-align: center;
+    }
+    #pantalla-password button {
+      font-size: 1.1em;
+      padding: 8px 24px;
+      border-radius: 8px;
+      border: none;
+      background: #ff2e63;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 8px #ffb6d5;
+    }
+    #pantalla-password .error {
+      color: #ff2e63;
+      margin-top: 8px;
+      font-weight: bold;
+      font-size: 1em;
+    }
+  </style>
+</head>
+<body>
+  <!-- 👇 PANTALLA DE CONTRASEÑA 👇 -->
+  <div id="pantalla-password">
+    <h2>🔒 Ingresa la contraseña para ver tu sorpresa 🔒</h2>
+    <input type="password" id="passwordInput" placeholder="Contraseña...">
+    <button onclick="checkPassword()">Entrar</button>
+    <div class="error" id="passError"></div>
+  </div>
+  <!-- Pantalla inicial con globo grande -->
+  <div id="pantalla-inicio"></div>
+  <header>
+    <h1>🎂💖 Feliz Cumpleaños mi amorcito 💖🎂</h1>
+    <p class="mensaje-corto">Hoy es tu día especial y quiero celebrarlo contigo, aunque sea a la distancia ✨</p>
+  </header>
+  <!-- Música -->
+  <audio id="musica" loop>
+    <source src="manianitas.mp3" type="audio/mp3">
+    Tu navegador no soporta audio.
+  </audio>
+  <section class="imagenes" id="imagenes">
+    <!-- Las tarjetas se crean con JS -->
+  </section>
+  <section class="carta">
+    <h2>💌 Una Carta para Ti 💌</h2>
+    <p>
+      Hoy no es un día cualquiera, hoy el mundo celebra porque llegaste a iluminarlo con tu existencia. Quiero que sepas que eres alguien muy especial, y aunque no pueda estar a tu lado físicamente, estoy contigo en cada pensamiento y en cada latido de mi corazón.
+    </p>
+    <p>
+      Eres mi alegría, mi razón de sonreír y mi persona favorita en todo el universo. Deseo que este cumpleaños esté lleno de sorpresas, de amor y de momentos hermosos que siempre recuerdes con una sonrisa.
+    </p>
+    <p>
+      Nunca olvides lo importante que eres y lo mucho que significas para mí. Te prometo que siempre estaré aquí, para acompañarte, para apoyarte y para recordarte cada día lo increíble que eres.
+    </p>
+    <p class="firma">
+      🐱 Con todo mi cariño y mi amor infinito 🐱
+    </p>
+  </section>
+  <footer>
+    Hecho con todo mi corazón 💕
+  </footer>
+  <script>
+    // 👇 CONTRASEÑA QUE QUIERES USAR (CAMBIA AQUÍ) 👇
+    const PASSWORD = "kittycumple.perla_memeche_fiscal"; // ← Cambia aquí tu contraseña
+
+    function checkPassword() {
+      const input = document.getElementById("passwordInput").value;
+      const error = document.getElementById("passError");
+      if (input === PASSWORD) {
+        document.getElementById("pantalla-password").style.display = "none";
+      } else {
+        error.textContent = "Contraseña incorrecta 🐱";
+      }
+    }
+    // También permitir enter
+    document.getElementById("passwordInput").addEventListener("keypress", function(e){
+      if(e.key === "Enter") checkPassword();
+    });
+
+    // El resto del código SOLO se ejecuta si la contraseña es correcta
+    document.getElementById("pantalla-password").style.display = "flex";
+    document.body.style.overflow = "hidden";
+    // Cuando la contraseña sea correcta, se desbloquea el resto:
+    new MutationObserver(function(muts){
+      if(document.getElementById("pantalla-password").style.display === "none"){
+        document.body.style.overflow = "auto";
+        // Tu código normal aquí 👇
+
+        // Tus fotos y mensajes individuales para cada tarjeta
+        const fotos = [
+          { src: "flores.jpeg", mensaje: "🌸 Hola, mi amor; hoy es tu cumpleaños y deseo que tu día esté lleno de alegría, amor y sonrisas; eres mi niña preciosa y lo mejor que me ha pasado en la vida. 🌸" },
+          { src: "globos.jpeg", mensaje: "💖 No sé amor, solo quise hacerte algo lindo. Espero y te guste, y como sé que te gusta mucho Hello Kitty, aquí tienes mi cielo 💖" },
+          { src: "globos_kitty.jpeg", mensaje: "🎂 Como a ti te encanta Hello Kitty, aquí tienes para que te acompañen en tu día; te amo mucho, mi sueñita mosha 🎂" },
+          { src: "diosa.jpeg", mensaje: "✨ Gracias por regalarme tu sonrisa ✨" },
+          { src: "corazones.jpeg", mensaje: "🥰 Mi persona favorita, siempre tú 🥰" },
+          { src: "pastel.jpeg", mensaje: "🍰 Mi princesita hermosha, mi ñiña prechocha. Que tu vida y tu día sean tan dulce y lindo como este pastel 🍰" },
+          { src: "mi_nina.jpeg", mensaje: "💐 Gracias por existir y por amarme 💐" },
+          { src: "ella.jpeg", mensaje: "🌈 Mi vida es más feliz contigo 🌈" },
+          { src: "ella_con_corona.jpeg", mensaje: "😍 Mi corazón siempre late por ti mi reina 😍" },
+          { src: "free_fire.jpeg", mensaje: "🎉 ¡Feliz cumpleaños! Mereces todo lo bonito 🎉" }
+        ];
+
+        // 👇 1. AQUÍ PONES TUS 3 IMÁGENES CHIQUITAS DE HELLO KITTY 👇
+        const helloKittyFloatImgs = [
+          "hello_kitty_flota1.png", // <-- imagen Hello Kitty 1
+          "hello_kitty_flota2.jpg", // <-- imagen Hello Kitty 2
+          "hello_kitty_flota3.jpg"  // <-- imagen Hello Kitty 3
+        ];
+
+        // Corazones flotantes
+        function crearCorazon() {
+          const corazon = document.createElement("div");
+          corazon.classList.add("flotante");
+          corazon.innerHTML = "💖";
+          corazon.style.left = Math.random() * 100 + "vw";
+          corazon.style.fontSize = Math.random() * 24 + 17 + "px";
+          document.body.appendChild(corazon);
+          setTimeout(() => corazon.remove(), 7000);
+        }
+        setInterval(crearCorazon, 500);
+
+        // 👇 2. EFECTO DE IMÁGENES DE HELLO KITTY FLOTANTES 👇
+        function crearHelloKittyFlotante() {
+          const img = document.createElement("img");
+          img.className = "flotante hello-kitty-img";
+          img.src = helloKittyFloatImgs[Math.floor(Math.random() * helloKittyFloatImgs.length)];
+          img.style.left = Math.random() * 90 + "vw";
+          img.style.width = (Math.random() * 40 + 32) + "px";
+          img.style.height = "auto";
+          document.body.appendChild(img);
+          setTimeout(() => img.remove(), 7000);
+        }
+        setInterval(crearHelloKittyFlotante, 1000);
+
+        // Globos grandes uno a uno
+        let globoActual = 1;
+        const totalGlobos = 15;
+        let musicaIniciada = false;
+        function mostrarGlobo(n) {
+          const pantalla = document.getElementById("pantalla-inicio");
+          pantalla.innerHTML = "";
+          const globo = document.createElement("div");
+          globo.className = "globo-grande";
+          globo.innerHTML = `
+            <div class="globo-numero">${n} año${n > 1 ? "s" : ""}</div>
+            <div class="globo-texto">Haz clic para estallar 🎈</div>
+          `;
+          globo.addEventListener("click", () => {
+            globo.classList.add("explotado");
+            setTimeout(() => {
+              if (n < totalGlobos) {
+                mostrarGlobo(n + 1);
+              } else {
+                pantalla.style.display = "none";
+              }
+            }, 250);
+            if (!musicaIniciada) {
+              const musica = document.getElementById("musica");
+              musica.play().catch(() => {
+                document.body.addEventListener("click", () => musica.play(), { once: true });
+              });
+              musicaIniciada = true;
+            }
+          });
+          pantalla.appendChild(globo);
+        }
+        mostrarGlobo(globoActual);
+
+        // Tarjetas en orden grid normal
+        const imagenes = document.getElementById("imagenes");
+        fotos.forEach((foto, i) => {
+          const tarjeta = document.createElement("div");
+          tarjeta.classList.add("tarjeta");
+          tarjeta.innerHTML = `
+            <div class="tarjeta-inner">
+              <div class="tarjeta-front"><img src="${foto.src}" alt="Foto ${i+1}"></div>
+              <div class="tarjeta-back">${foto.mensaje}</div>
+            </div>
+          `;
+          imagenes.appendChild(tarjeta);
+          tarjeta.addEventListener("click", function() {
+            tarjeta.classList.toggle("volteada");
+          });
+        });
+      }
+    }).observe(document.getElementById("pantalla-password"), { attributes: true, attributeFilter: ['style'] });
+  </script>
+</body>
+</html>
